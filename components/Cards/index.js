@@ -18,15 +18,9 @@
 //
 // Create a card for each of the articles and add the card to the DOM.
 
-axios.get('https://lambda-times-backend.herokuapp.com/articles')
-.then(response =>{
-    console.log(response.data.articles);
-}).catch(error => {
-    console.log("the data was not returned", error)
-  });
+function createArticleCard(passedEntry) {
 
-/*
-function createArticleCard(passedDate, passedTitle, passedTemp) {
+    //console.log(passedEntry);
 
     const card = document.createElement('div');
     const headline = document.createElement('div');
@@ -35,23 +29,35 @@ function createArticleCard(passedDate, passedTitle, passedTemp) {
     const imageOfAuthor = document.createElement('img');
     const authorsName = document.createElement('span');
 
-    date.textContent = passedDate;
-    title.textContent = passedTitle;
-    temp.textContent = passedTemp;
+    headline.textContent = passedEntry.headline;
+    imageOfAuthor.src = passedEntry.authorPhoto;
+    authorsName.textContent = passedEntry.authorName;
 
-    header.classList.add('header');
-    date.classList.add('date');
-    temp.classList.add('temp');
+    card.classList.add('card');
+    headline.classList.add('headline');
+    author.classList.add('author');
+    imgContainer.classList.add('img-container');
 
-    header.append(date);
-    header.append(title);
-    header.append(temp);
+    card.append(headline);
+    card.append(author);
+    author.append(imgContainer);
+    imgContainer.append(imageOfAuthor);
+    author.append(authorsName);
 
-    return header;
+    return card;
 
 }//Header
 
-const headerContainer = document.querySelector('.header-container');
+const CardsContainer = document.querySelector('.cards-container');
 
-headerContainer.append(Header('SMARCH 28, 2019', 'Lambda Times', '98°'));
-*/
+axios.get('https://lambda-times-backend.herokuapp.com/articles')
+.then(response =>{
+    const entries = Object.values(response.data.articles);
+    entries.forEach(item => {
+        item.forEach( article =>{
+            CardsContainer.append(createArticleCard(article));
+        })
+    })
+}).catch(error => {
+    console.log("the data was not returned", error)
+  });
