@@ -16,6 +16,8 @@ function createTabComponent(passedTopic){
 
     tab.classList.add('tab');
 
+    
+
     return tab
 
 }//createTabComponent
